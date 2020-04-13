@@ -58,9 +58,13 @@ fn rect(mut threadcount: i32) {
         threadcount = 1;
     }
 
-    double*  partialAreas;
-    let mut h = (double)(P_END-P_START)/NSTEPS;
-    p_current = P_START;
-    area=0.0;
+    /*
+     need to define a parallel sum here. Something in Rayon, it looks like. sum() somewhere?
+     Hmm. Maybe not here. Build a vector and then use the parallel iterator to sum it.
+     https://docs.rs/rayon/1.0.3/rayon/iter/trait.ParallelIterator.html#method.sum
+    */
+
+    let mut p_current = P_START;
+    let mut area = 0.0 as f64;
 
 }
