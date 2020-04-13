@@ -46,3 +46,21 @@ fn main() {
     println!("Time taken: {:?}", duration); 
 
 }
+
+fn rect(mut threadcount: i32) {
+    let NSTEPS = 8388600;
+    let NITER = 8388600;
+    let P_START = 0;
+    let P_END = 10;
+
+    let mut h = ((P_END - P_START)/NSTEPS) as f64;
+    if threadcount == 0 {
+        threadcount = 1;
+    }
+
+    double*  partialAreas;
+    let mut h = (double)(P_END-P_START)/NSTEPS;
+    p_current = P_START;
+    area=0.0;
+
+}
