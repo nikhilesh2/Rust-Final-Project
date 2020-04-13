@@ -45,15 +45,17 @@ fn main() {
     println!("{}", total_sum);
     println!("Time taken: {:?}", duration); 
 
+    rect(16);
+
 }
 
 fn rect(mut threadcount: i32) {
-    let NSTEPS = 8388600;
-    let NITER = 8388600;
-    let P_START = 0;
-    let P_END = 10;
+    let NSTEPS = 8388600 as i64;
+    let NITER = 8388600 as i64;
+    let p_start = 0 as i32;
+    let p_end = 10 as i32;
 
-    let mut h = ((P_END - P_START)/NSTEPS) as f64;
+    let h = ((p_end as f64 - p_start as f64)/NSTEPS as f64) as f64;
     if threadcount == 0 {
         threadcount = 1;
     }
@@ -64,7 +66,20 @@ fn rect(mut threadcount: i32) {
      https://docs.rs/rayon/1.0.3/rayon/iter/trait.ParallelIterator.html#method.sum
     */
 
-    let mut p_current = P_START;
+    let mut p_current = p_start as f64;
     let mut area = 0.0 as f64;
+    let mut f_result = 0.0 as f64;
 
+    // start timer
+    let start = Instant::now();
+    // serial progression
+    for i in 0..NITER {
+        p_current = i as f64 * h;
+        f_result = p_current.cos();
+        area += f_result*h;
+    }
+    // end timer
+    let duration = start.elapsed();
+    println!("Rect (or Reimann) Sum of Cosine result for {} thread(s): {:02}", 1, area);
+    println!("Time taken: {:?}", duration); 
 }
