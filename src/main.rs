@@ -57,16 +57,15 @@ fn rect() {
 
     let h = ((p_end as f64 - p_start as f64)/NSTEPS as f64) as f64;
 
-    /*
-     need to define a parallel sum here. Something in Rayon, it looks like. sum() somewhere?
-     Hmm. Maybe not here. Build a vector and then use the parallel iterator to sum it.
-     https://docs.rs/rayon/1.0.3/rayon/iter/trait.ParallelIterator.html#method.sum
-    */
-
-
     // start timer
     let start = Instant::now();
-    // parallel implementation
+
+    /* Parallel Implementation
+     * 
+     * Start by taking a parallel iterator across the total iterations. Rust's Rayon crate handles parallel iterators quite nicely. (Good call on that, Nik.)
+     * We can then, super easily, map our calculation across each iteration, and then sum that up. And since we're working on a parallel iterator, both the
+     * map and the sum are done in parallel.
+    */
     let area :f64 = (0..NITER).into_par_iter().map(|x| {
         (x as f64 * h).cos() * h // in Rust, statements that do not end with a semicolon are return statements
     }).sum();
