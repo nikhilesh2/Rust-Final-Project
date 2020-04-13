@@ -1,13 +1,9 @@
-// use std::thread;
-use rayon::prelude::*;
+// use std::thread;g
 // extern crate scoped_threadpool;
 // use scoped_threadpool::Pool;
 // use std::sync::{Arc, Mutex};
+use rayon::prelude::*;
 use std::time::{Instant};
-
-
-
-
 
 fn main() {
     const NROW:usize = 128;
@@ -26,9 +22,7 @@ fn main() {
         }
     }
 
-
-
-    
+    // Parallelization
     let start = Instant::now();
     output_array_c.par_chunks_mut(16).for_each(|chunk| 
             for i in 0..chunk.len() {
@@ -39,7 +33,7 @@ fn main() {
                 }
             }
         );
-let duration = start.elapsed();
+    let duration = start.elapsed();
 
     let mut total_sum = 0.0;
     // Test Results
