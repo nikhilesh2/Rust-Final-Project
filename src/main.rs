@@ -45,20 +45,17 @@ fn main() {
     println!("{}", total_sum);
     println!("Time taken: {:?}", duration); 
 
-    rect(16);
+    rect();
 
 }
 
-fn rect(mut threadcount: i32) {
+fn rect() {
     let NSTEPS = 8388600 as i64;
     let NITER = 8388600 as i64;
     let p_start = 0 as i32;
     let p_end = 10 as i32;
 
     let h = ((p_end as f64 - p_start as f64)/NSTEPS as f64) as f64;
-    if threadcount == 0 {
-        threadcount = 1;
-    }
 
     /*
      need to define a parallel sum here. Something in Rayon, it looks like. sum() somewhere?
@@ -66,20 +63,29 @@ fn rect(mut threadcount: i32) {
      https://docs.rs/rayon/1.0.3/rayon/iter/trait.ParallelIterator.html#method.sum
     */
 
-    let mut p_current = p_start as f64;
-    let mut area = 0.0 as f64;
-    let mut f_result = 0.0 as f64;
 
     // start timer
     let start = Instant::now();
-    // serial progression
+    // parallel implementation
+    let area :f64 = (0..NITER).into_par_iter().map(|x| {
+        (x as f64 * h).cos() * h // in Rust, statements that do not end with a semicolon are return statements
+    }).sum();
+
+/*
+    // serial implementation
+    let mut area = 0.0 as f64;
+    let mut p_current = p_start as f64;
+    let mut f_result = 0.0 as f64;
+
     for i in 0..NITER {
         p_current = i as f64 * h;
         f_result = p_current.cos();
         area += f_result*h;
     }
+*/
+
     // end timer
     let duration = start.elapsed();
-    println!("Rect (or Reimann) Sum of Cosine result for {} thread(s): {:02}", 1, area);
+    println!("Rect (or Reimann) Sum of Cosine from 0 to 10. Resulting area : {:.2}", area);
     println!("Time taken: {:?}", duration); 
 }
